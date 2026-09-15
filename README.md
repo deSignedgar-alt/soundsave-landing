@@ -1,4 +1,4 @@
-# Soundsave™ landing (PRIVATE)
+# Soundsave™ landing (public marketing)
 
 Marketing one-pager only. **No Studio / DSP / license issuer source.**
 
@@ -14,9 +14,13 @@ python -m http.server 8765
 
 See `BRAND.md`. Mark assets in `assets/`.
 
+## Live site
+
+https://designedgar-alt.github.io/soundsave-landing/
+
 ## GitHub
 
-This repository is **private** by design.  
+This repository is **public** (marketing HTML only — no Studio source).  
 Public vitrine for the insurance / marketplace near-dup SDK remains:
 
 https://github.com/deSignedgar-alt/hermes-near-dup-landing
