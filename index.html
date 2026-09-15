@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soundsave™ — Studio custody mark</title>
+  <meta name="description" content="Soundsave Studio: Protect masters, Pre-Flight after messenger handoffs. Closed Machine Seat pilot for EU/UK/US studios." />
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0B1210;
+      --jade: #2F8F74;
+      --mist: #E8F2EE;
+      --fog: #9BB0A8;
+      --panel: #121a17;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Source Serif 4", Georgia, serif;
+      color: var(--mist);
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(47,143,116,0.18), transparent 60%),
+        linear-gradient(165deg, #070b09 0%, var(--ink) 45%, #0e1613 100%);
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2.5rem 1.4rem 4rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 3.5rem;
+    }
+    .brand img, .brand svg { width: 48px; height: 48px; display: block; }
+    .brand-name {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .brand-name span { color: var(--jade); }
+    .tm { font-size: 0.55em; vertical-align: super; color: var(--fog); }
+    h1 {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      line-height: 1.12;
+      max-width: 16ch;
+      margin: 0 0 1rem;
+    }
+    .lede {
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: var(--fog);
+      max-width: 38ch;
+      margin: 0 0 1.8rem;
+    }
+    .cta {
+      display: inline-flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+    .cta a {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.85rem 1.25rem;
+      border-radius: 4px;
+    }
+    .cta .primary {
+      background: var(--jade);
+      color: var(--ink);
+    }
+    .cta .ghost {
+      border: 1px solid rgba(155,176,168,0.35);
+      color: var(--mist);
+    }
+    section {
+      border-top: 1px solid rgba(155,176,168,0.18);
+      padding: 1.8rem 0;
+    }
+    section h2 {
+      font-family: Syne, system-ui, sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--jade);
+      margin: 0 0 0.85rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .card {
+      background: var(--panel);
+      padding: 1.1rem 1.15rem;
+      border-radius: 6px;
+    }
+    .card strong {
+      font-family: Syne, system-ui, sans-serif;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+    .card p { margin: 0; color: var(--fog); font-size: 0.98rem; line-height: 1.45; }
+    ul.plain { margin: 0; padding-left: 1.1rem; color: var(--fog); line-height: 1.55; }
+    footer {
+      margin-top: 2.5rem;
+      color: var(--fog);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    footer a { color: var(--mist); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="brand">
+      <img src="assets/mark.svg" width="48" height="48" alt="" />
+      <div class="brand-name">SOUND<span>SAVE</span><span class="tm">™</span></div>
+    </header>
+
+    <main>
+      <h1>Studio custody mark for masters that leave the room.</h1>
+      <p class="lede">
+        Protect the file. Keep a receipt. Check the mark after a messenger handoff —
+        without pretending the courtroom already decided.
+      </p>
+      <div class="cta">
+        <a class="primary" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
+        <a class="ghost" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
+      </div>
+
+      <section>
+        <h2>Sold</h2>
+        <div class="grid">
+          <div class="card">
+            <strong>Protect</strong>
+            <p>Embed + custody <code>receipt.json</code> bound to a Machine seat.</p>
+          </div>
+          <div class="card">
+            <strong>Pre-Flight</strong>
+            <p>YES / MAYBE / NO after digital file handoffs (messenger as file).</p>
+          </div>
+          <div class="card">
+            <strong>Machine Seat</strong>
+            <p>License locked to one PC. Default mid SKU for EU / UK / US studios.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Not sold</h2>
+        <ul class="plain">
+          <li>Analog Hole / acoustic re-record claims</li>
+          <li>AI-proof / Demucs-proof guarantees</li>
+          <li>Blind TikTok detection</li>
+          <li>Court judgment — Deep / Pairwise is incident aid for counsel</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Pilot path</h2>
+        <p class="lede" style="max-width:42ch;margin:0">
+          Closed delivery under NDA. Guide quote: paid pilot <strong style="color:var(--mist)">€200</strong> / 45 days →
+          <strong style="color:var(--mist)">€200 / month</strong> per seat. Invite €0 only for a few flagships.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Territory: EU / UK / US and agreed markets — <strong>not Russia / CIS</strong>.<br />
+      Soundsave™ marketing site only — no Studio source in this repository.<br />
+      Contact: <a href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
+    </footer>
+  </div>
+</body>
+</html>
