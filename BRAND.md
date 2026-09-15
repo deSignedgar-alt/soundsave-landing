@@ -24,6 +24,6 @@ Short, technical, honest Sold / Not Sold. No Analog Hole / AI-proof claims. Terr
 
 ## Assets
 
-- `assets/mark.svg` — primary logo mark
-- `assets/soundsave-mark.png` — raster seal for social / favicon source
+- `assets/mark.svg` — primary logo: waveform bars + custody seal + stamp
+- `assets/soundsave-mark.png` — raster version for social / previews
 - Do **not** place core DSP / Studio source in this repo

@@ -1,10 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Soundsave mark">
+  <!-- ink tile -->
   <rect width="64" height="64" rx="14" fill="#0B1210"/>
-  <g fill="none" stroke="#2F8F74" stroke-width="2.2" stroke-linecap="round">
-    <circle cx="30" cy="30" r="6"/>
-    <circle cx="30" cy="30" r="12"/>
-    <circle cx="30" cy="30" r="18"/>
-    <path d="M48 30a18 18 0 0 1-4.2 11.6"/>
+  <!-- custody ring (partial) -->
+  <path d="M14 32a18 18 0 1 1 28.5 14.5" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M46 20.5a18 18 0 0 1 4 11.5" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+  <!-- waveform bars -->
+  <g fill="#E8F2EE">
+    <rect x="20" y="30" width="4.2" height="10" rx="2.1"/>
+    <rect x="26.5" y="24" width="4.2" height="22" rx="2.1"/>
+    <rect x="33" y="18" width="4.2" height="28" rx="2.1"/>
+    <rect x="39.5" y="25" width="4.2" height="18" rx="2.1"/>
+    <rect x="46" y="29" width="4.2" height="12" rx="2.1"/>
   </g>
-  <rect x="44" y="44" width="10" height="10" rx="2" fill="#E8F2EE"/>
+  <!-- jade custody stamp -->
+  <rect x="46" y="46" width="11" height="11" rx="2.5" fill="#2F8F74"/>
+  <path d="M49 51.5l2.2 2.2 4.2-4.4" fill="none" stroke="#0B1210" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

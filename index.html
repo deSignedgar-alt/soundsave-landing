@@ -113,8 +113,56 @@
     }
     .card p { margin: 0; color: var(--fog); font-size: 0.98rem; line-height: 1.45; }
     ul.plain { margin: 0; padding-left: 1.1rem; color: var(--fog); line-height: 1.55; }
+    .contact {
+      margin-top: 2.2rem;
+      background: linear-gradient(135deg, #2F8F74 0%, #247a63 100%);
+      color: #0B1210;
+      border-radius: 10px;
+      padding: 1.6rem 1.4rem 1.5rem;
+      box-shadow: 0 12px 40px rgba(47,143,116,0.28);
+    }
+    .contact h2 {
+      font-family: Syne, system-ui, sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #0B1210;
+      margin: 0 0 0.55rem;
+    }
+    .contact p {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      color: #0B1210;
+    }
+    .contact .mail {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.15rem, 3.5vw, 1.55rem);
+      color: #0B1210;
+      text-decoration: none;
+      border-bottom: 3px solid #0B1210;
+      padding-bottom: 0.1rem;
+      display: inline-block;
+    }
+    .contact .mail:hover { opacity: 0.85; }
+    .contact .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+    }
+    .contact .row a {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.7rem 1.05rem;
+      border-radius: 4px;
+      background: #0B1210;
+      color: #E8F2EE;
+    }
     footer {
-      margin-top: 2.5rem;
+      margin-top: 1.6rem;
       color: var(--fog);
       font-size: 0.92rem;
       line-height: 1.5;
@@ -215,10 +263,19 @@
       </section>
     </main>
 
+    <section class="contact" aria-label="Contact">
+      <h2>Contact</h2>
+      <p>Closed pilot / NDA / ONEPAGER — write directly:</p>
+      <a class="mail" href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
+      <div class="row">
+        <a href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
+        <a href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
+      </div>
+    </section>
+
     <footer>
       Territory: EU / UK / US and agreed markets — <strong>not Russia / CIS</strong>.<br />
-      Soundsave™ marketing site only — no Studio source in this repository.<br />
-      Contact: <a href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
+      Soundsave™ marketing site only — no Studio source in this repository.
     </footer>
   </div>
 </body>
