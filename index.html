@@ -113,6 +113,77 @@
     }
     .card p { margin: 0; color: var(--fog); font-size: 0.98rem; line-height: 1.45; }
     ul.plain { margin: 0; padding-left: 1.1rem; color: var(--fog); line-height: 1.55; }
+    .preview-note {
+      margin: 0 0 1rem;
+      color: var(--fog);
+      font-size: 0.98rem;
+      line-height: 1.45;
+      max-width: 48ch;
+    }
+    .preview-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .preview-panel {
+      background: var(--panel);
+      border-radius: 6px;
+      padding: 1.1rem 1.15rem 1.15rem;
+      border: 1px solid rgba(155,176,168,0.14);
+    }
+    .preview-panel .label {
+      font-family: Syne, system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fog);
+      margin: 0 0 0.75rem;
+    }
+    .pf-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 0.85rem;
+    }
+    .pf-chip {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid rgba(155,176,168,0.25);
+      color: var(--fog);
+    }
+    .pf-chip.on-yes {
+      background: rgba(47,143,116,0.22);
+      border-color: var(--jade);
+      color: #7ddec0;
+    }
+    .pf-chip.on-maybe {
+      background: rgba(200,160,60,0.12);
+      border-color: rgba(200,160,60,0.45);
+      color: #e0c56a;
+    }
+    .pf-meta {
+      margin: 0;
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--fog);
+    }
+    .pf-meta strong { color: var(--mist); font-weight: 600; }
+    .receipt-code {
+      margin: 0;
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #b7cfc6;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .receipt-code .k { color: #7ddec0; }
+    .receipt-code .s { color: #c9b48a; }
     .contact {
       margin-top: 2.2rem;
       background: linear-gradient(135deg, #2F8F74 0%, #247a63 100%);
@@ -135,6 +206,13 @@
       line-height: 1.45;
       color: #0B1210;
     }
+    .mail-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem 0.85rem;
+      margin-bottom: 0.15rem;
+    }
     .contact .mail {
       font-family: Syne, system-ui, sans-serif;
       font-weight: 800;
@@ -146,13 +224,27 @@
       display: inline-block;
     }
     .contact .mail:hover { opacity: 0.85; }
+    .copy-mail {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: 2px solid #0B1210;
+      background: transparent;
+      color: #0B1210;
+      border-radius: 4px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+    }
+    .copy-mail:hover { background: rgba(11,18,16,0.08); }
+    .copy-mail.copied { background: #0B1210; color: #E8F2EE; }
     .contact .row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
       margin-top: 1.1rem;
     }
-    .contact .row a {
+    .contact .row a,
+    .contact .row button.ghost-cta {
       font-family: Syne, system-ui, sans-serif;
       font-weight: 700;
       text-decoration: none;
@@ -160,6 +252,8 @@
       border-radius: 4px;
       background: #0B1210;
       color: #E8F2EE;
+      border: none;
+      cursor: pointer;
     }
     footer {
       margin-top: 1.6rem;
@@ -244,6 +338,41 @@
         </div>
       </section>
 
+      <section aria-label="Pre-Flight and receipt preview">
+        <h2>What you see after Protect</h2>
+        <p class="preview-note">
+          Illustrative studio view — not a live Detect. Engineers and counsel get an honest zone plus a local custody receipt.
+        </p>
+        <div class="preview-grid">
+          <div class="preview-panel">
+            <p class="label">Pre-Flight</p>
+            <div class="pf-row" aria-hidden="true">
+              <span class="pf-chip on-yes">YES</span>
+              <span class="pf-chip on-maybe">MAYBE</span>
+              <span class="pf-chip">NO</span>
+            </div>
+            <p class="pf-meta">
+              <strong>zone:</strong> YES<br />
+              <strong>path:</strong> messenger file → download<br />
+              <strong>seat:</strong> matches licensed Machine<br />
+              <strong>note:</strong> MAYBE stays visible when unsure
+            </p>
+          </div>
+          <div class="preview-panel">
+            <p class="label">receipt.json (excerpt)</p>
+            <pre class="receipt-code" aria-label="Sample receipt.json excerpt">{
+{
+  <span class="k">"schema"</span>: <span class="s">"soundsave.receipt.v1"</span>,
+  <span class="k">"studio_id"</span>: <span class="s">"RTY"</span>,
+  <span class="k">"seat_id"</span>: <span class="s">"seat_01"</span>,
+  <span class="k">"asset_id"</span>: <span class="s">"demo_master_044"</span>,
+  <span class="k">"created_utc"</span>: <span class="s">"2026-09-14T18:02:11Z"</span>,
+  <span class="k">"mark"</span>: { <span class="k">"layers"</span>: <span class="s">2</span>, <span class="k">"bound"</span>: <span class="s">"machine"</span> }
+}</pre>
+          </div>
+        </div>
+      </section>
+
       <section>
         <h2>Not sold</h2>
         <ul class="plain">
@@ -265,11 +394,15 @@
 
     <section class="contact" aria-label="Contact">
       <h2>Contact</h2>
-      <p>Closed pilot / NDA / ONEPAGER — write directly:</p>
-      <a class="mail" href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
+      <p>Closed pilot / NDA / ONEPAGER — write directly (mailto or copy for webmail):</p>
+      <div class="mail-row">
+        <a class="mail" id="contact-email" href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
+        <button type="button" class="copy-mail" id="copy-email" aria-label="Copy email address">Copy email</button>
+      </div>
       <div class="row">
         <a href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
         <a href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
+        <button type="button" class="ghost-cta" id="copy-email-row" aria-label="Copy email address">Copy address</button>
       </div>
     </section>
 
@@ -278,5 +411,34 @@
       Soundsave™ marketing site only — no Studio source in this repository.
     </footer>
   </div>
+  <script>
+    (function () {
+      var EMAIL = "dezignedgar@gmail.com";
+      function flash(btn) {
+        if (!btn) return;
+        var prev = btn.textContent;
+        btn.textContent = "Copied";
+        btn.classList.add("copied");
+        setTimeout(function () {
+          btn.textContent = prev;
+          btn.classList.remove("copied");
+        }, 1600);
+      }
+      function copyEmail(btn) {
+        function ok() { flash(btn); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(EMAIL).then(ok).catch(function () {
+            window.prompt("Copy email:", EMAIL);
+          });
+        } else {
+          window.prompt("Copy email:", EMAIL);
+        }
+      }
+      var a = document.getElementById("copy-email");
+      var b = document.getElementById("copy-email-row");
+      if (a) a.addEventListener("click", function () { copyEmail(a); });
+      if (b) b.addEventListener("click", function () { copyEmail(b); });
+    })();
+  </script>
 </body>
 </html>
