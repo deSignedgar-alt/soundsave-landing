@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Soundsave™ — Studio custody mark</title>
-  <meta name="description" content="Soundsave Studio: dual-layer custody mark — messenger file resilience, crop &amp; re-encode survival, offline Machine Seat. Closed pilot for EU/UK/US studios." />
+  <title>Soundsaveв„ў вЂ” Studio custody mark</title>
+  <meta name="description" content="Soundsave Studio: dual-layer custody mark вЂ” messenger file resilience, crop &amp; re-encode survival, offline Machine Seat. Closed pilot for EU/UK/US studios." />
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -84,6 +84,23 @@
       border: 1px solid rgba(155,176,168,0.35);
       color: var(--mist);
     }
+    .preflight-file { display: block; margin: 0.75rem 0 1rem; color: var(--fog); }
+    .preflight-file input { display: block; margin-top: 0.4rem; color: var(--mist); }
+    .preflight-go {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      background: var(--jade);
+      color: var(--ink);
+      border: 0;
+      border-radius: 4px;
+      padding: 0.75rem 1.15rem;
+      cursor: pointer;
+    }
+    .preflight-go:disabled { opacity: 0.55; cursor: wait; }
+    .preflight-status { min-height: 1.4em; color: var(--fog); margin: 0.75rem 0; }
+    .preflight-zone { font-family: Syne, system-ui, sans-serif; font-size: 1.35rem; font-weight: 700; }
+    .preflight-disclaimer { font-size: 0.88rem; color: var(--fog); opacity: 0.85; }
+    .preflight-result[hidden] { display: none; }
     section {
       border-top: 1px solid rgba(155,176,168,0.18);
       padding: 1.8rem 0;
@@ -268,17 +285,18 @@
   <div class="wrap">
     <header class="brand">
       <img src="assets/mark.svg" width="48" height="48" alt="" />
-      <div class="brand-name">SOUND<span>SAVE</span><span class="tm">™</span></div>
+      <div class="brand-name">SOUND<span>SAVE</span><span class="tm">в„ў</span></div>
     </header>
 
     <main>
       <h1>Studio custody mark for masters that leave the room.</h1>
       <p class="lede">
-        Protect the file. Keep a receipt. Check the mark after a messenger handoff —
+        Protect the file. Keep a receipt. Check the mark after a messenger handoff вЂ”
         without pretending the courtroom already decided.
       </p>
       <div class="cta">
         <a class="primary" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
+        <a class="ghost" href="#try-preflight">Try Pre-Flight demo</a>
         <a class="ghost" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
       </div>
 
@@ -287,35 +305,35 @@
         <div class="grid">
           <div class="card">
             <strong>Dual-layer custody mark</strong>
-            <p>Two complementary hidden layers in a finished stereo master — built for leak-source / seat+asset signal, not as “unbreakable DRM.”</p>
+            <p>Two complementary hidden layers in a finished stereo master вЂ” built for leak-source / seat+asset signal, not as вЂњunbreakable DRM.вЂќ</p>
           </div>
           <div class="card">
             <strong>Unique per track + studio-bound</strong>
-            <p>Each Protect run stamps a track identity tied to your licensed seat. Another licensee’s Detect does not match your marks.</p>
+            <p>Each Protect run stamps a track identity tied to your licensed seat. Another licenseeвЂ™s Detect does not match your marks.</p>
           </div>
           <div class="card">
             <strong>Messenger file resilience</strong>
-            <p>Field-tested path: send as a <em>file</em> (Telegram / WhatsApp-class) → download → Pre-Flight still lands YES or an honest MAYBE.</p>
+            <p>Field-tested path: send as a <em>file</em> (Telegram / WhatsApp-class) в†’ download в†’ Pre-Flight still lands YES or an honest MAYBE.</p>
           </div>
           <div class="card">
             <strong>Crop &amp; mid-excerpt</strong>
-            <p>Survives common digital crops / mid-section excerpts used in demos and disputes — Pairwise confirms disputed vs marked reference when you need counsel-grade evidence.</p>
+            <p>Survives common digital crops / mid-section excerpts used in demos and disputes вЂ” Pairwise confirms disputed vs marked reference when you need counsel-grade evidence.</p>
           </div>
           <div class="card">
             <strong>Compress &amp; re-encode</strong>
-            <p>Designed to hold through lossy / lossless re-encode, normalize, mono fold, and everyday file copies — the transforms that actually happen after a master leaves the desk.</p>
+            <p>Designed to hold through lossy / lossless re-encode, normalize, mono fold, and everyday file copies вЂ” the transforms that actually happen after a master leaves the desk.</p>
           </div>
           <div class="card">
             <strong>Inaudible on a real mix</strong>
-            <p>Hidden in the finished stereo — no audible “watermark taste” on a working master when used as specified.</p>
+            <p>Hidden in the finished stereo вЂ” no audible вЂњwatermark tasteвЂќ on a working master when used as specified.</p>
           </div>
           <div class="card">
             <strong>Fully offline Windows seat</strong>
-            <p>Desktop app after install: no cloud, no telemetry, no account login. Protect → receipt → self-check on your machine.</p>
+            <p>Desktop app after install: no cloud, no telemetry, no account login. Protect в†’ receipt в†’ self-check on your machine.</p>
           </div>
           <div class="card">
             <strong>Honest Pre-Flight</strong>
-            <p>YES / MAYBE / NO — including when the answer is uncomfortable. Better a clear MAYBE than a fake green light.</p>
+            <p>YES / MAYBE / NO вЂ” including when the answer is uncomfortable. Better a clear MAYBE than a fake green light.</p>
           </div>
         </div>
       </section>
@@ -341,7 +359,7 @@
       <section aria-label="Pre-Flight and receipt preview">
         <h2>What you see after Protect</h2>
         <p class="preview-note">
-          Illustrative studio view — not a live Detect. Engineers and counsel get an honest zone plus a local custody receipt.
+          Illustrative studio view вЂ” not a live Detect. Engineers and counsel get an honest zone plus a local custody receipt.
         </p>
         <div class="preview-grid">
           <div class="preview-panel">
@@ -353,7 +371,7 @@
             </div>
             <p class="pf-meta">
               <strong>zone:</strong> YES<br />
-              <strong>path:</strong> messenger file → download<br />
+              <strong>path:</strong> messenger file в†’ download<br />
               <strong>seat:</strong> matches licensed Machine<br />
               <strong>note:</strong> MAYBE stays visible when unsure
             </p>
@@ -379,22 +397,45 @@
           <li>Analog Hole / acoustic re-record claims</li>
           <li>AI-proof / Demucs-proof guarantees</li>
           <li>Blind TikTok detection</li>
-          <li>Court judgment — Deep / Pairwise is incident aid for counsel</li>
+          <li>Court judgment вЂ” Deep / Pairwise is incident aid for counsel</li>
         </ul>
       </section>
 
       <section>
         <h2>Pilot path</h2>
         <p class="lede" style="max-width:42ch;margin:0">
-          Closed delivery under NDA. Guide quote: paid pilot <strong style="color:var(--mist)">€200</strong> / 45 days →
-          <strong style="color:var(--mist)">€200 / month</strong> per seat. Invite €0 only for a few flagships.
+          Closed delivery under NDA. Guide quote: paid pilot <strong style="color:var(--mist)">в‚¬200</strong> / 45 days в†’
+          <strong style="color:var(--mist)">в‚¬200 / month</strong> per seat. Invite в‚¬0 only for a few flagships.
         </p>
+      </section>
+
+      <section class="preflight-demo" id="try-preflight" aria-labelledby="preflight-title">
+        <h2 id="preflight-title">Try Pre-Flight (30 s demo)</h2>
+        <p class="preview-note">
+          Upload a short clip. We check only the first 30 seconds and return
+          <strong style="color:var(--mist)">YES / MAYBE / NO</strong> вЂ”
+          not a custody audit, not Soundsave Studio. Limit: 2 checks per IP per day.
+        </p>
+        <form id="preflight-form">
+          <label class="preflight-file">
+            Audio file
+            <input id="preflight-file" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" required />
+          </label>
+          <button type="submit" id="preflight-go" class="preflight-go">Run Pre-Flight</button>
+        </form>
+        <p id="preflight-status" class="preflight-status" role="status" aria-live="polite"></p>
+        <div id="preflight-result" class="preflight-result" hidden>
+          <p class="preflight-zone">Zone: <span id="preflight-zone">вЂ”</span></p>
+          <ul id="preflight-checklist" class="plain"></ul>
+          <p id="preflight-hint" class="preview-note"></p>
+          <p id="preflight-disclaimer" class="preflight-disclaimer"></p>
+        </div>
       </section>
     </main>
 
     <section class="contact" aria-label="Contact">
       <h2>Contact</h2>
-      <p>Closed pilot / NDA / ONEPAGER — write directly (mailto or copy for webmail):</p>
+      <p>Closed pilot / NDA / ONEPAGER вЂ” write directly (mailto or copy for webmail):</p>
       <div class="mail-row">
         <a class="mail" id="contact-email" href="mailto:dezignedgar@gmail.com">dezignedgar@gmail.com</a>
         <button type="button" class="copy-mail" id="copy-email" aria-label="Copy email address">Copy email</button>
@@ -407,8 +448,8 @@
     </section>
 
     <footer>
-      Territory: EU / UK / US and agreed markets — <strong>not Russia / CIS</strong>.<br />
-      Soundsave™ marketing site only — no Studio source in this repository.
+      Territory: EU / UK / US and agreed markets вЂ” <strong>not Russia / CIS</strong>.<br />
+      Soundsaveв„ў marketing site only вЂ” no Studio source in this repository.
     </footer>
   </div>
   <script>
@@ -439,6 +480,58 @@
       if (a) a.addEventListener("click", function () { copyEmail(a); });
       if (b) b.addEventListener("click", function () { copyEmail(b); });
     })();
+
+    (function () {
+      var apiBase = (window.SOUNDSAVE_PREFLIGHT_API || "").replace(/\/$/, "");
+      var form = document.getElementById("preflight-form");
+      if (!form) return;
+      var statusEl = document.getElementById("preflight-status");
+      var resultEl = document.getElementById("preflight-result");
+      var zoneEl = document.getElementById("preflight-zone");
+      var listEl = document.getElementById("preflight-checklist");
+      var hintEl = document.getElementById("preflight-hint");
+      var discEl = document.getElementById("preflight-disclaimer");
+      var goBtn = document.getElementById("preflight-go");
+      form.addEventListener("submit", async function (ev) {
+        ev.preventDefault();
+        resultEl.hidden = true;
+        listEl.innerHTML = "";
+        if (!apiBase) {
+          statusEl.textContent = "Demo API offline — start Colab and set SOUNDSAVE_PREFLIGHT_API.";
+          return;
+        }
+        var fileInput = document.getElementById("preflight-file");
+        var file = fileInput && fileInput.files && fileInput.files[0];
+        if (!file) { statusEl.textContent = "Choose an audio file."; return; }
+        goBtn.disabled = true;
+        statusEl.textContent = "Checking…";
+        try {
+          var fd = new FormData();
+          fd.append("file", file, file.name);
+          var res = await fetch(apiBase + "/v1/preflight", { method: "POST", body: fd });
+          var data = await res.json().catch(function () { return {}; });
+          if (!res.ok) {
+            statusEl.textContent = (data && data.detail) || ("Error " + res.status);
+            return;
+          }
+          statusEl.textContent = "Done (" + ((data.rate && data.rate.used) || "?") + "/" + ((data.rate && data.rate.limit) || "2") + " today).";
+          zoneEl.textContent = data.zone_label || data.zone || "?";
+          (data.checklist || []).forEach(function (line) {
+            var li = document.createElement("li");
+            li.textContent = line;
+            listEl.appendChild(li);
+          });
+          hintEl.textContent = data.hint || "";
+          discEl.textContent = data.disclaimer || "";
+          resultEl.hidden = false;
+        } catch (err) {
+          statusEl.textContent = "Network error — is the Colab tunnel up?";
+        } finally {
+          goBtn.disabled = false;
+        }
+      });
+    })();
+
   </script>
 </body>
 </html>
