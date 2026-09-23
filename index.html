@@ -101,6 +101,9 @@
     .preflight-zone { font-family: Syne, system-ui, sans-serif; font-size: 1.35rem; font-weight: 700; }
     .preflight-disclaimer { font-size: 0.88rem; color: var(--fog); opacity: 0.85; }
     .preflight-result[hidden] { display: none; }
+    .preflight-steps { margin: 0.85rem 0 1rem; padding-left: 1.15rem; color: var(--fog); }
+    .preflight-steps li { margin: 0.35rem 0; }
+    .preflight-steps a { color: var(--jade); }
     section {
       border-top: 1px solid rgba(155,176,168,0.18);
       padding: 1.8rem 0;
@@ -412,9 +415,21 @@
       <section class="preflight-demo" id="try-preflight" aria-labelledby="preflight-title">
         <h2 id="preflight-title">Try Pre-Flight (30 s demo)</h2>
         <p class="preview-note">
-          Upload a short clip. We check only the first 30 seconds and return
-          <strong style="color:var(--mist)">YES / MAYBE / NO</strong> вЂ”
-          not a custody audit, not Soundsave Studio. Limit: 2 checks per IP per day.
+          This public demo only <strong style="color:var(--mist)">checks</strong> a mark.
+          Embedding (Protect) stays in Soundsave Studio on a licensed Machine seat —
+          we do not expose Protect on the marketing site.
+        </p>
+        <ol class="preflight-steps">
+          <li>
+            <a href="assets/landing_demo_marked.mp3" download>Download the marked demo clip</a>
+            (28&nbsp;s) — expect <strong style="color:var(--mist)">YES</strong>.
+          </li>
+          <li>Upload that file below and run Pre-Flight.</li>
+          <li>Your own unmarked music against this demo seat → usually <strong style="color:var(--mist)">NO</strong>.</li>
+        </ol>
+        <p class="preview-note">
+          First 30 seconds only. Limit: 2 checks per IP per UTC day.
+          Not a custody audit, not Studio.
         </p>
         <form id="preflight-form">
           <label class="preflight-file">
@@ -425,7 +440,7 @@
         </form>
         <p id="preflight-status" class="preflight-status" role="status" aria-live="polite"></p>
         <div id="preflight-result" class="preflight-result" hidden>
-          <p class="preflight-zone">Zone: <span id="preflight-zone">вЂ”</span></p>
+          <p class="preflight-zone">Zone: <span id="preflight-zone">—</span></p>
           <ul id="preflight-checklist" class="plain"></ul>
           <p id="preflight-hint" class="preview-note"></p>
           <p id="preflight-disclaimer" class="preflight-disclaimer"></p>
