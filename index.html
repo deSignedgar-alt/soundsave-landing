@@ -453,6 +453,7 @@
     </footer>
   </div>
   <script>
+    window.SOUNDSAVE_PREFLIGHT_API = "https://upstage-bakeshop-magnetize.ngrok-free.dev";
     (function () {
       var EMAIL = "dezignedgar@gmail.com";
       function flash(btn) {
@@ -508,7 +509,11 @@
         try {
           var fd = new FormData();
           fd.append("file", file, file.name);
-          var res = await fetch(apiBase + "/v1/preflight", { method: "POST", body: fd });
+          var res = await fetch(apiBase + "/v1/preflight", {
+            method: "POST",
+            body: fd,
+            headers: { "ngrok-skip-browser-warning": "true" }
+          });
           var data = await res.json().catch(function () { return {}; });
           if (!res.ok) {
             statusEl.textContent = (data && data.detail) || ("Error " + res.status);
