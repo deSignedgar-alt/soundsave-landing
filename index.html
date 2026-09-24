@@ -299,7 +299,7 @@
       </p>
       <div class="cta">
         <a class="primary" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
-        <a class="ghost" href="#try-preflight">Try Pre-Flight demo</a>
+        <a class="ghost" href="#try-demo">Try Protect + Pre-Flight</a>
         <a class="ghost" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
       </div>
 
@@ -412,31 +412,32 @@
         </p>
       </section>
 
-      <section class="preflight-demo" id="try-preflight" aria-labelledby="preflight-title">
-        <h2 id="preflight-title">Try Pre-Flight (30 s demo)</h2>
+      <section class="preflight-demo" id="try-demo" aria-labelledby="demo-title">
+        <h2 id="demo-title">Try Protect + Pre-Flight</h2>
         <p class="preview-note">
-          This public demo only <strong style="color:var(--mist)">checks</strong> a mark.
-          Embedding (Protect) stays in Soundsave Studio on a licensed Machine seat —
-          we do not expose Protect on the marketing site.
+          Full loop on a <strong style="color:var(--mist)">public demo seat</strong>:
+          <strong style="color:var(--mist)">Protect</strong> stamps your clip,
+          then <strong style="color:var(--mist)">Pre-Flight</strong> reads the mark back.
+          Not a licensed Machine seat — Studio remains the real product.
         </p>
         <ol class="preflight-steps">
-          <li>
-            <a href="assets/landing_demo_marked.mp3" download>Download the marked demo clip</a>
-            (28&nbsp;s) — expect <strong style="color:var(--mist)">YES</strong>.
-          </li>
-          <li>Upload that file below and run Pre-Flight.</li>
-          <li>Your own unmarked music against this demo seat → usually <strong style="color:var(--mist)">NO</strong>.</li>
+          <li>Choose any short audio file (first 30&nbsp;s used).</li>
+          <li><strong style="color:var(--mist)">Protect</strong> — download the marked WAV.</li>
+          <li>Upload that marked WAV and run <strong style="color:var(--mist)">Pre-Flight</strong> — expect YES on this demo seat.</li>
+          <li>Unmarked original against this seat — usually NO.</li>
         </ol>
         <p class="preview-note">
-          First 30 seconds only. Limit: 2 checks per IP per UTC day.
-          Not a custody audit, not Studio.
+          Limit: 2 Protect + 2 Pre-Flight per IP per UTC day. Demo seat only.
         </p>
-        <form id="preflight-form">
+        <form id="demo-form">
           <label class="preflight-file">
             Audio file
-            <input id="preflight-file" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" required />
+            <input id="demo-file" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" required />
           </label>
-          <button type="submit" id="preflight-go" class="preflight-go">Run Pre-Flight</button>
+          <div class="cta" style="margin-bottom:0.5rem">
+            <button type="button" id="protect-go" class="preflight-go">Protect (download marked)</button>
+            <button type="button" id="preflight-go" class="preflight-go" style="background:transparent;color:var(--mist);border:1px solid rgba(155,176,168,0.35)">Pre-Flight (check)</button>
+          </div>
         </form>
         <p id="preflight-status" class="preflight-status" role="status" aria-live="polite"></p>
         <div id="preflight-result" class="preflight-result" hidden>
@@ -499,28 +500,76 @@
 
     (function () {
       var apiBase = (window.SOUNDSAVE_PREFLIGHT_API || "").replace(/\/$/, "");
-      var form = document.getElementById("preflight-form");
-      if (!form) return;
       var statusEl = document.getElementById("preflight-status");
       var resultEl = document.getElementById("preflight-result");
       var zoneEl = document.getElementById("preflight-zone");
       var listEl = document.getElementById("preflight-checklist");
       var hintEl = document.getElementById("preflight-hint");
       var discEl = document.getElementById("preflight-disclaimer");
-      var goBtn = document.getElementById("preflight-go");
-      form.addEventListener("submit", async function (ev) {
-        ev.preventDefault();
+      var protectBtn = document.getElementById("protect-go");
+      var preflightBtn = document.getElementById("preflight-go");
+      var fileInput = document.getElementById("demo-file");
+      if (!protectBtn || !preflightBtn || !fileInput) return;
+
+      function offlineMsg() {
+        statusEl.textContent = "Demo API offline — start the laptop host and set SOUNDSAVE_PREFLIGHT_API.";
+      }
+      function chosenFile() {
+        return fileInput.files && fileInput.files[0];
+      }
+      function setBusy(on) {
+        protectBtn.disabled = on;
+        preflightBtn.disabled = on;
+      }
+
+      protectBtn.addEventListener("click", async function () {
         resultEl.hidden = true;
         listEl.innerHTML = "";
-        if (!apiBase) {
-          statusEl.textContent = "Demo API offline — start the laptop Pre-Flight host (or Colab) and set SOUNDSAVE_PREFLIGHT_API.";
-          return;
+        if (!apiBase) { offlineMsg(); return; }
+        var file = chosenFile();
+        if (!file) { statusEl.textContent = "Choose an audio file first."; return; }
+        setBusy(true);
+        statusEl.textContent = "Protecting (demo seat)…";
+        try {
+          var fd = new FormData();
+          fd.append("file", file, file.name);
+          var res = await fetch(apiBase + "/v1/protect", {
+            method: "POST",
+            body: fd,
+            headers: { "ngrok-skip-browser-warning": "true" }
+          });
+          if (!res.ok) {
+            var err = await res.json().catch(function () { return {}; });
+            statusEl.textContent = (err && err.detail) || ("Protect error " + res.status);
+            return;
+          }
+          var blob = await res.blob();
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = "soundsave_demo_marked.wav";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          var used = res.headers.get("X-Soundsave-Rate-Used") || "?";
+          var limit = res.headers.get("X-Soundsave-Rate-Limit") || "2";
+          statusEl.textContent = "Marked WAV downloaded (" + used + "/" + limit + " Protect today). Now upload that WAV and run Pre-Flight.";
+        } catch (e) {
+          statusEl.textContent = "Network error — is the tunnel up?";
+        } finally {
+          setBusy(false);
         }
-        var fileInput = document.getElementById("preflight-file");
-        var file = fileInput && fileInput.files && fileInput.files[0];
-        if (!file) { statusEl.textContent = "Choose an audio file."; return; }
-        goBtn.disabled = true;
-        statusEl.textContent = "Checking…";
+      });
+
+      preflightBtn.addEventListener("click", async function () {
+        resultEl.hidden = true;
+        listEl.innerHTML = "";
+        if (!apiBase) { offlineMsg(); return; }
+        var file = chosenFile();
+        if (!file) { statusEl.textContent = "Choose an audio file first."; return; }
+        setBusy(true);
+        statusEl.textContent = "Pre-Flight check…";
         try {
           var fd = new FormData();
           fd.append("file", file, file.name);
@@ -534,7 +583,7 @@
             statusEl.textContent = (data && data.detail) || ("Error " + res.status);
             return;
           }
-          statusEl.textContent = "Done (" + ((data.rate && data.rate.used) || "?") + "/" + ((data.rate && data.rate.limit) || "2") + " today).";
+          statusEl.textContent = "Done (" + ((data.rate && data.rate.used) || "?") + "/" + ((data.rate && data.rate.limit) || "2") + " Pre-Flight today).";
           zoneEl.textContent = data.zone_label || data.zone || "?";
           (data.checklist || []).forEach(function (line) {
             var li = document.createElement("li");
@@ -544,10 +593,10 @@
           hintEl.textContent = data.hint || "";
           discEl.textContent = data.disclaimer || "";
           resultEl.hidden = false;
-        } catch (err) {
-          statusEl.textContent = "Network error — is the Colab tunnel up?";
+        } catch (e) {
+          statusEl.textContent = "Network error — is the tunnel up?";
         } finally {
-          goBtn.disabled = false;
+          setBusy(false);
         }
       });
     })();
