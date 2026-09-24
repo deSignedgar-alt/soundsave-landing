@@ -84,8 +84,29 @@
       border: 1px solid rgba(155,176,168,0.35);
       color: var(--mist);
     }
-    .preflight-file { display: block; margin: 0.75rem 0 1rem; color: var(--fog); }
-    .preflight-file input { display: block; margin-top: 0.4rem; color: var(--mist); }
+    .preflight-file { display: block; margin: 0.85rem 0 0.35rem; color: var(--fog); }
+    .file-pick { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.45rem; }
+    .file-btn {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      background: #f4f7f6;
+      color: #14201c;
+      border: 0;
+      border-radius: 3px;
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+    }
+    .file-name { color: var(--mist); font-size: 0.92rem; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
     .preflight-go {
       font-family: Syne, system-ui, sans-serif;
       font-weight: 700;
@@ -421,13 +442,27 @@
           <li>The answer is one word: <strong style="color:var(--mist)">Yes</strong>, <strong style="color:var(--mist)">No</strong>, or <strong style="color:var(--mist)">Maybe</strong>.</li>
         </ol>
         <form id="demo-form">
-          <label class="preflight-file">
-            Audio file
-            <input id="demo-file" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" required />
-          </label>
-          <div class="cta" style="margin-bottom:0.5rem">
+          <p class="preflight-file">
+            Original file
+            <span class="file-pick">
+              <button type="button" id="src-btn" class="file-btn">Choose file</button>
+              <input id="demo-file" class="sr-only" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" />
+              <span id="src-name" class="file-name">No file chosen</span>
+            </span>
+          </p>
+          <div class="cta" style="margin:0.85rem 0 0.35rem">
             <button type="button" id="protect-go" class="preflight-go">Mark — download file</button>
-            <button type="button" id="preflight-go" class="preflight-go" style="background:transparent;color:var(--mist);border:1px solid rgba(155,176,168,0.35)">Check</button>
+          </div>
+          <p class="preflight-file">
+            Marked file — the download, or the file after a crop or a messenger
+            <span class="file-pick">
+              <button type="button" id="marked-btn" class="file-btn">Choose file</button>
+              <input id="marked-file" class="sr-only" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" />
+              <span id="marked-name" class="file-name">No file chosen</span>
+            </span>
+          </p>
+          <div class="cta" style="margin:0.85rem 0 0.5rem">
+            <button type="button" id="preflight-go" class="preflight-go">Check marked file</button>
           </div>
         </form>
         <p id="preflight-status" class="preflight-status" role="status" aria-live="polite"></p>
@@ -510,7 +545,22 @@
       var protectBtn = document.getElementById("protect-go");
       var preflightBtn = document.getElementById("preflight-go");
       var fileInput = document.getElementById("demo-file");
-      if (!protectBtn || !preflightBtn || !fileInput) return;
+      var markedInput = document.getElementById("marked-file");
+      var srcBtn = document.getElementById("src-btn");
+      var markedBtn = document.getElementById("marked-btn");
+      var srcName = document.getElementById("src-name");
+      var markedName = document.getElementById("marked-name");
+      if (!protectBtn || !preflightBtn || !fileInput || !markedInput) return;
+
+      function bindPick(btn, input, nameEl) {
+        btn.addEventListener("click", function () { input.click(); });
+        input.addEventListener("change", function () {
+          var f = input.files && input.files[0];
+          nameEl.textContent = f ? f.name : "No file chosen";
+        });
+      }
+      bindPick(srcBtn, fileInput, srcName);
+      bindPick(markedBtn, markedInput, markedName);
 
       function offlineMsg() {
         statusEl.textContent = "Demo API offline — start the laptop host and set SOUNDSAVE_PREFLIGHT_API.";
@@ -552,7 +602,7 @@
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          statusEl.textContent = "File with the mark downloaded. Crop it or send it in a messenger, then upload that file and press Check.";
+          statusEl.textContent = "File with the mark downloaded. Upload it below — or the file you got back after a crop or a messenger — then press Check marked file.";
         } catch (e) {
           statusEl.textContent = "Network error — is the tunnel up?";
         } finally {
@@ -563,10 +613,10 @@
       preflightBtn.addEventListener("click", async function () {
         resultEl.hidden = true;
         if (!apiBase) { offlineMsg(); return; }
-        var file = chosenFile();
-        if (!file) { statusEl.textContent = "Choose an audio file first."; return; }
+        var file = markedInput.files && markedInput.files[0];
+        if (!file) { statusEl.textContent = "Upload the marked file first. Check does not use the original."; return; }
         setBusy(true);
-        statusEl.textContent = "Checking the mark…";
+        statusEl.textContent = "Checking the marked file…";
         try {
           var fd = new FormData();
           fd.append("file", file, file.name);
