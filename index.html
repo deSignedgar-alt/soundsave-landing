@@ -98,7 +98,7 @@
     }
     .preflight-go:disabled { opacity: 0.55; cursor: wait; }
     .preflight-status { min-height: 1.4em; color: var(--fog); margin: 0.75rem 0; }
-    .preflight-zone { font-family: Syne, system-ui, sans-serif; font-size: 1.35rem; font-weight: 700; }
+    .preflight-zone { font-family: Syne, system-ui, sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: 0.02em; margin: 0.2rem 0; }
     .preflight-disclaimer { font-size: 0.88rem; color: var(--fog); opacity: 0.85; }
     .preflight-result[hidden] { display: none; }
     .preflight-steps { margin: 0.85rem 0 1rem; padding-left: 1.15rem; color: var(--fog); }
@@ -299,7 +299,7 @@
       </p>
       <div class="cta">
         <a class="primary" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20NDA%20pilot">Request closed pilot</a>
-        <a class="ghost" href="#try-demo">Try Protect + Pre-Flight</a>
+        <a class="ghost" href="#try-demo">Try the mark</a>
         <a class="ghost" href="mailto:dezignedgar@gmail.com?subject=Soundsave%20ONEPAGER">Ask for ONEPAGER</a>
       </div>
 
@@ -413,37 +413,27 @@
       </section>
 
       <section class="preflight-demo" id="try-demo" aria-labelledby="demo-title">
-        <h2 id="demo-title">Try Protect + Pre-Flight</h2>
-        <p class="preview-note">
-          Full loop on a <strong style="color:var(--mist)">public demo seat</strong>:
-          <strong style="color:var(--mist)">Protect</strong> stamps your clip,
-          then <strong style="color:var(--mist)">Pre-Flight</strong> reads the mark back.
-          Not a licensed Machine seat — Studio remains the real product.
-        </p>
+        <h2 id="demo-title">Try the mark</h2>
         <ol class="preflight-steps">
-          <li>Choose any short audio file (first 30&nbsp;s used).</li>
-          <li><strong style="color:var(--mist)">Protect</strong> — download the marked WAV.</li>
-          <li>Upload that marked WAV and run <strong style="color:var(--mist)">Pre-Flight</strong> — expect YES on this demo seat.</li>
-          <li>Unmarked original against this seat — usually NO.</li>
+          <li><strong style="color:var(--mist)">Mark</strong> — download the file with the mark. First 30 seconds are used.</li>
+          <li>Crop it, or send it in a messenger, then save the file you got back.</li>
+          <li><strong style="color:var(--mist)">Check</strong> — upload that file.</li>
+          <li>The answer is one word: <strong style="color:var(--mist)">Yes</strong>, <strong style="color:var(--mist)">No</strong>, or <strong style="color:var(--mist)">Maybe</strong>.</li>
         </ol>
-        <p class="preview-note">
-          Limit: 2 Protect + 2 Pre-Flight per IP per UTC day. Demo seat only.
-        </p>
         <form id="demo-form">
           <label class="preflight-file">
             Audio file
             <input id="demo-file" type="file" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" required />
           </label>
           <div class="cta" style="margin-bottom:0.5rem">
-            <button type="button" id="protect-go" class="preflight-go">Protect (download marked)</button>
-            <button type="button" id="preflight-go" class="preflight-go" style="background:transparent;color:var(--mist);border:1px solid rgba(155,176,168,0.35)">Pre-Flight (check)</button>
+            <button type="button" id="protect-go" class="preflight-go">Mark — download file</button>
+            <button type="button" id="preflight-go" class="preflight-go" style="background:transparent;color:var(--mist);border:1px solid rgba(155,176,168,0.35)">Check</button>
           </div>
         </form>
         <p id="preflight-status" class="preflight-status" role="status" aria-live="polite"></p>
         <div id="preflight-result" class="preflight-result" hidden>
-          <p class="preflight-zone">Zone: <span id="preflight-zone">—</span></p>
-          <ul id="preflight-checklist" class="plain"></ul>
-          <p id="preflight-hint" class="preview-note"></p>
+          <p class="preflight-zone" id="preflight-zone">—</p>
+          <p id="preflight-plain" class="preview-note"></p>
           <p id="preflight-disclaimer" class="preflight-disclaimer"></p>
         </div>
       </section>
@@ -503,9 +493,20 @@
       var statusEl = document.getElementById("preflight-status");
       var resultEl = document.getElementById("preflight-result");
       var zoneEl = document.getElementById("preflight-zone");
-      var listEl = document.getElementById("preflight-checklist");
-      var hintEl = document.getElementById("preflight-hint");
+      var plainEl = document.getElementById("preflight-plain");
       var discEl = document.getElementById("preflight-disclaimer");
+      var FULL_CHECK = "This is a quick read, not a full expertise. For a full expertise, email the file to dezignedgar@gmail.com. Free once every 3 days for one person. Each extra check is 12 USD, 12 EUR, or 12 USDT.";
+      var VERDICT = {
+        yes: ["Yes", "The mark is there."],
+        no: ["No", "The mark is not there."],
+        maybe: ["Maybe", "Not sure. The mark is too weak to call yes or no."]
+      };
+      function verdictOf(data) {
+        var z = String((data && (data.zone || data.zone_label)) || "").toLowerCase();
+        if (z.indexOf("yes") >= 0) return VERDICT.yes;
+        if (z.indexOf("no") >= 0 && z.indexOf("maybe") < 0) return VERDICT.no;
+        return VERDICT.maybe;
+      }
       var protectBtn = document.getElementById("protect-go");
       var preflightBtn = document.getElementById("preflight-go");
       var fileInput = document.getElementById("demo-file");
@@ -524,12 +525,11 @@
 
       protectBtn.addEventListener("click", async function () {
         resultEl.hidden = true;
-        listEl.innerHTML = "";
         if (!apiBase) { offlineMsg(); return; }
         var file = chosenFile();
         if (!file) { statusEl.textContent = "Choose an audio file first."; return; }
         setBusy(true);
-        statusEl.textContent = "Protecting (demo seat)…";
+        statusEl.textContent = "Adding the mark…";
         try {
           var fd = new FormData();
           fd.append("file", file, file.name);
@@ -540,21 +540,19 @@
           });
           if (!res.ok) {
             var err = await res.json().catch(function () { return {}; });
-            statusEl.textContent = (err && err.detail) || ("Protect error " + res.status);
+            statusEl.textContent = (err && err.detail) || ("Could not mark the file (" + res.status + ")");
             return;
           }
           var blob = await res.blob();
           var url = URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = url;
-          a.download = "soundsave_demo_marked.wav";
+          a.download = "soundsave_marked.wav";
           document.body.appendChild(a);
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          var used = res.headers.get("X-Soundsave-Rate-Used") || "?";
-          var limit = res.headers.get("X-Soundsave-Rate-Limit") || "2";
-          statusEl.textContent = "Marked WAV downloaded (" + used + "/" + limit + " Protect today). Now upload that WAV and run Pre-Flight.";
+          statusEl.textContent = "File with the mark downloaded. Crop it or send it in a messenger, then upload that file and press Check.";
         } catch (e) {
           statusEl.textContent = "Network error — is the tunnel up?";
         } finally {
@@ -564,12 +562,11 @@
 
       preflightBtn.addEventListener("click", async function () {
         resultEl.hidden = true;
-        listEl.innerHTML = "";
         if (!apiBase) { offlineMsg(); return; }
         var file = chosenFile();
         if (!file) { statusEl.textContent = "Choose an audio file first."; return; }
         setBusy(true);
-        statusEl.textContent = "Pre-Flight check…";
+        statusEl.textContent = "Checking the mark…";
         try {
           var fd = new FormData();
           fd.append("file", file, file.name);
@@ -580,18 +577,14 @@
           });
           var data = await res.json().catch(function () { return {}; });
           if (!res.ok) {
-            statusEl.textContent = (data && data.detail) || ("Error " + res.status);
+            statusEl.textContent = (data && data.detail) || ("Check failed (" + res.status + ")");
             return;
           }
-          statusEl.textContent = "Done (" + ((data.rate && data.rate.used) || "?") + "/" + ((data.rate && data.rate.limit) || "2") + " Pre-Flight today).";
-          zoneEl.textContent = data.zone_label || data.zone || "?";
-          (data.checklist || []).forEach(function (line) {
-            var li = document.createElement("li");
-            li.textContent = line;
-            listEl.appendChild(li);
-          });
-          hintEl.textContent = data.hint || "";
-          discEl.textContent = data.disclaimer || "";
+          var verdict = verdictOf(data);
+          statusEl.textContent = "";
+          zoneEl.textContent = verdict[0];
+          plainEl.textContent = verdict[1];
+          discEl.textContent = FULL_CHECK;
           resultEl.hidden = false;
         } catch (e) {
           statusEl.textContent = "Network error — is the tunnel up?";
