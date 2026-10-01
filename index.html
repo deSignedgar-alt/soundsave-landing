@@ -602,7 +602,10 @@
             return;
           }
           var verdict = verdictOf(data);
-          statusEl.textContent = "";
+          var rate = data && data.rate;
+          statusEl.textContent = rate && rate.marks_limit
+            ? ("Marks " + rate.marks_used + "/" + rate.marks_limit + " · Checks " + rate.checks_used + "/" + rate.checks_limit)
+            : "";
           zoneEl.textContent = verdict[0];
           plainEl.textContent = verdict[1];
           discEl.textContent = FULL_CHECK;
