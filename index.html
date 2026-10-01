@@ -572,6 +572,47 @@
         protectBtn.disabled = on;
         preflightBtn.disabled = on;
       }
+      var justMarked = null;
+
+      function holdMarked(blob) {
+        justMarked = new File([blob], "soundsave_marked.wav", { type: "audio/wav" });
+        try {
+          var dt = new DataTransfer();
+          dt.items.add(justMarked);
+          markedInput.files = dt.files;
+        } catch (e) {}
+        markedName.textContent = justMarked.name;
+      }
+
+      async function runCheck(file) {
+        resultEl.hidden = true;
+        setBusy(true);
+        statusEl.textContent = "Checking the marked file…";
+        try {
+          var fd = new FormData();
+          fd.append("file", file, file.name);
+          var res = await fetch(apiBase + "/v1/preflight", {
+            method: "POST",
+            body: fd,
+            headers: { "ngrok-skip-browser-warning": "true" }
+          });
+          var data = await res.json().catch(function () { return {}; });
+          if (!res.ok) {
+            statusEl.textContent = (data && data.detail) || ("Check failed (" + res.status + ")");
+            return;
+          }
+          var verdict = verdictOf(data);
+          statusEl.textContent = "";
+          zoneEl.textContent = verdict[0];
+          plainEl.textContent = verdict[1];
+          discEl.textContent = FULL_CHECK;
+          resultEl.hidden = false;
+        } catch (e) {
+          statusEl.textContent = "Network error — is the tunnel up?";
+        } finally {
+          setBusy(false);
+        }
+      }
 
       protectBtn.addEventListener("click", async function () {
         resultEl.hidden = true;
@@ -602,7 +643,8 @@
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          statusEl.textContent = "File with the mark downloaded. Upload it below — or the file you got back after a crop or a messenger — then press Check marked file.";
+          holdMarked(blob);
+          await runCheck(justMarked);
         } catch (e) {
           statusEl.textContent = "Network error — is the tunnel up?";
         } finally {
@@ -611,36 +653,11 @@
       });
 
       preflightBtn.addEventListener("click", async function () {
-        resultEl.hidden = true;
         if (!apiBase) { offlineMsg(); return; }
-        var file = markedInput.files && markedInput.files[0];
+        var picked = markedInput.files && markedInput.files[0];
+        var file = picked || justMarked;
         if (!file) { statusEl.textContent = "Upload the marked file first. Check does not use the original."; return; }
-        setBusy(true);
-        statusEl.textContent = "Checking the marked file…";
-        try {
-          var fd = new FormData();
-          fd.append("file", file, file.name);
-          var res = await fetch(apiBase + "/v1/preflight", {
-            method: "POST",
-            body: fd,
-            headers: { "ngrok-skip-browser-warning": "true" }
-          });
-          var data = await res.json().catch(function () { return {}; });
-          if (!res.ok) {
-            statusEl.textContent = (data && data.detail) || ("Check failed (" + res.status + ")");
-            return;
-          }
-          var verdict = verdictOf(data);
-          statusEl.textContent = "";
-          zoneEl.textContent = verdict[0];
-          plainEl.textContent = verdict[1];
-          discEl.textContent = FULL_CHECK;
-          resultEl.hidden = false;
-        } catch (e) {
-          statusEl.textContent = "Network error — is the tunnel up?";
-        } finally {
-          setBusy(false);
-        }
+        await runCheck(file);
       });
     })();
 
