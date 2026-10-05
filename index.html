@@ -572,18 +572,6 @@
         protectBtn.disabled = on;
         preflightBtn.disabled = on;
       }
-      var justMarked = null;
-
-      function holdMarked(blob) {
-        justMarked = new File([blob], "soundsave_marked.wav", { type: "audio/wav" });
-        try {
-          var dt = new DataTransfer();
-          dt.items.add(justMarked);
-          markedInput.files = dt.files;
-        } catch (e) {}
-        markedName.textContent = justMarked.name;
-      }
-
       async function runCheck(file) {
         resultEl.hidden = true;
         setBusy(true);
@@ -646,8 +634,7 @@
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          holdMarked(blob);
-          await runCheck(justMarked);
+          statusEl.textContent = "Downloaded. Send it in a messenger or crop it, then choose that file below and press Check.";
         } catch (e) {
           statusEl.textContent = "Network error — is the tunnel up?";
         } finally {
@@ -658,9 +645,8 @@
       preflightBtn.addEventListener("click", async function () {
         if (!apiBase) { offlineMsg(); return; }
         var picked = markedInput.files && markedInput.files[0];
-        var file = picked || justMarked;
-        if (!file) { statusEl.textContent = "Upload the marked file first. Check does not use the original."; return; }
-        await runCheck(file);
+        if (!picked) { statusEl.textContent = "Choose the file you got back. Check does not use the original."; return; }
+        await runCheck(picked);
       });
     })();
 
